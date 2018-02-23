@@ -7,7 +7,7 @@
           <el-menu-item index="1">处理中心</el-menu-item>
           <el-submenu index="2">
             <template slot="title">管理</template>
-            <el-menu-item index="2-1">菜品</el-menu-item>
+            <el-menu-item index="2-1"><router-link to="/dishes">菜品</router-link></el-menu-item>
             <el-menu-item index="2-2">锅底</el-menu-item>
             <el-menu-item index="2-3">汤底口味</el-menu-item>
             <el-menu-item index="2-4">餐桌</el-menu-item>
@@ -18,10 +18,10 @@
           <el-menu-item index="4"><a href="https://www.ele.me" target="_blank">订单管理</a></el-menu-item>
         </el-menu>
       </el-header>
+
+
+      <router-view/>
     </el-container>
-
-
-    <router-view/>
   </div>
 </template>
 
