@@ -2,37 +2,39 @@
   <el-container id="dishes">
 
     <el-header>
-      <el-row style="width: 85%">
+      <div>
         <el-col :span="5"><div class="grid-content bg-purple">
           <el-button type="primary">
             <i class="el-icon-circle-plus"></i> 新增餐厅
           </el-button>
         </div></el-col>
         <el-col :span="6" :offset="13"><div class="grid-content bg-purple">
-              <el-input
-                placeholder="请输入内容"
-                v-model="input23">
-                <i slot="suffix" class="el-input__icon el-icon-search" @click="search"></i>
-              </el-input>
+          <el-input
+            placeholder="请输入内容"
+            v-model="input23">
+            <i slot="suffix" class="el-input__icon el-icon-search" @click="search"></i>
+          </el-input>
         </div></el-col>
-      </el-row>
+
+      </div>
     </el-header>
 
-    <el-container style="width: 85%">
-      <el-row :gutter="10">
+    <el-row :gutter="40" style="width: 85%">
 
-        <el-col :span="6">
+          <el-col :span="6">
             <el-menu
               default-active="2"
               class="el-menu-vertical-demo"
               @open="handleOpen"
               @close="handleClose">
-              <el-menu-item index="-1">
+              <el-menu-item index="-1"
+                            @click="setCategoriesFilter('all')">
                 <i class="el-icon-menu"></i> 全部菜品
               </el-menu-item>
               <el-menu-item v-for="(item, index, key) in categories"
                             :index="getIndex(index)"
-                            :key="key">
+                            :key="key"
+                            @click="setCategoriesFilter(item.name)">
                 <i class="el-icon-menu"></i>
                 <span slot="title">{{item.name}}</span>
               </el-menu-item>
@@ -40,45 +42,59 @@
             <el-button type="primary">
               <i class="el-icon-edit"></i> 编辑
             </el-button>
-        </el-col>
+
+          </el-col>
 
 
-        <el-col :span="18">
-            <el-row :gutter="20">
-              <el-col :md="8" :lg="8" :xl="6"
-                      v-for="(item) in products"
-                      :key="item.name"
-                      style="margin-bottom: 10px">
-                <el-card :body-style="{ padding: '10px' }">
-                  <img :src="'./../../Resource/img/1比1/' + item.name + '.jpg'" class="image">
-                  <div style="padding: 14px;">
-                    <span>{{item.name}}</span>
-                    <div class="bottom clearfix">
-                      <time class="time">{{ item.price }}</time>
-                      <el-button type="text" class="button">操作按钮</el-button>
-                    </div>
-                  </div>
-                </el-card>
-              </el-col>
+          <el-col :span="18">
+            <el-row>
+              单价排序
+              <el-button :type="isPriceUp==-1?'primary':''"
+                         size="mini"
+                         @click="sortProducts"><i class="el-icon-arrow-down"></i></el-button>
+              <el-button size="mini"
+                         :type="isPriceUp==1?'primary':''"
+                         @click="sortProducts"><i class="el-icon-arrow-up"></i></el-button>
             </el-row>
-        </el-col>
-
-
-      </el-row>
-    </el-container>
+						<el-row :gutter="20">
+							<el-col :md="8" :lg="8" :xl="6"
+											v-for="(item) in products"
+											:key="item.name"
+											style="margin-bottom: 10px">
+								<el-card :body-style="{ padding: '10px' }">
+									<img :src="getImgUrl(item.name)" class="image">
+									<div style="padding: 14px;">
+										<span>{{item.name}}</span>
+										<div class="bottom clearfix">
+											<time class="time">{{ item.price }}</time>
+											<el-button type="text" class="button">操作按钮</el-button>
+										</div>
+									</div>
+								</el-card>
+							</el-col>
+						</el-row>
+				  </el-col>
+    </el-row>
   </el-container>
 </template>
 
 <script>
   import axios from 'axios'
+  import ElContainer from "element-ui/packages/container/src/main";
+  import ElHeader from "element-ui/packages/header/src/main";
     export default {
+      components: {
+        ElHeader,
+        ElContainer},
       name: "dish",
       data() {
         return {
           input23: '',
           categories: [],
           products: [],
-          currentDate: new Date()
+          currentDate: new Date(),
+          categoryChecked: 'all',
+          isPriceUp: 1
         }
       },
       mounted() {
@@ -103,7 +119,10 @@
           })
         },
         getProducts() {
-          var params = {}
+          var params = {
+            category: this.categoryChecked,
+            isPriceUp: this.isPriceUp
+          }
           axios.get('/products/list', {
             params: params
           }).then((response) => {
@@ -124,45 +143,31 @@
         },
         getIndex(index) {
           return String(index)
+        },
+        getImgUrl(name) {
+          return 'static/1比1/' + name + '.jpg'
+        },
+        setCategoriesFilter(categories) {
+          this.categoryChecked = categories
+          this.getProducts()
+        },
+        sortProducts() {
+          this.isPriceUp = (this.isPriceUp === 1) ? -1 : 1
+          this.getProducts()
         }
       }
     }
 </script>
 
 <style scoped>
-  .el-header, .el-footer {
-    background-color: #B3C0D1;
-    color: #333;
-    text-align: center;
-    line-height: 60px;
+  .el-row {
+    margin-bottom: 20px;
   }
 
-  .el-aside {
-    background-color: #D3DCE6;
-    color: #333;
-    text-align: center;
-    line-height: 200px;
-  }
-
-  .el-main {
-    background-color: #E9EEF3;
-    color: #333;
-    text-align: center;
-    line-height: 160px;
-  }
-
-  .el-container {
-    margin-top: 40px;
-    margin-bottom: 40px;
-  }
-
-  .el-container:nth-child(5) .el-aside,
-  .el-container:nth-child(6) .el-aside {
-    line-height: 260px;
-  }
-
-  .el-container:nth-child(7) .el-aside {
-    line-height: 320px;
+  .el-header {
+    margin-top: 20px;
+    margin-bottom: 10px;
+    width: 85%;
   }
 
   .time {
