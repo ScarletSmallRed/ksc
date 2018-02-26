@@ -103,10 +103,12 @@
       },
       methods: {
         search() {
-          console.log('search')
+          console.log(`Search: ${this.input23}`)
+          this.getProducts()
         },
         getCategories() {
           var params = {}
+
           axios.get('/categories/list', {
             params: params
           }).then((response) => {
@@ -121,7 +123,8 @@
         getProducts() {
           var params = {
             category: this.categoryChecked,
-            isPriceUp: this.isPriceUp
+            isPriceUp: this.isPriceUp,
+            search: this.input23
           }
           axios.get('/products/list', {
             params: params
@@ -149,6 +152,7 @@
         },
         setCategoriesFilter(categories) {
           this.categoryChecked = categories
+          this.input23 = ''
           this.getProducts()
         },
         sortProducts() {
