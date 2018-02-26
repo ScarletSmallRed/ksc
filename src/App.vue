@@ -7,21 +7,12 @@
           <el-menu-item index="1">处理中心</el-menu-item>
           <el-submenu index="2">
             <template slot="title">管理</template>
-<<<<<<< HEAD
-            <el-menu-item index="2-1"><router-link to="/dishes">菜品</router-link></el-menu-item>
-            <el-menu-item index="2-2">锅底</el-menu-item>
-            <el-menu-item index="2-3">汤底口味</el-menu-item>
-            <el-menu-item index="2-4">餐桌</el-menu-item>
-            <el-menu-item index="2-5">额外收费项目</el-menu-item>
-            <el-menu-item index="2-6">礼品</el-menu-item>
-=======
             <el-menu-item index="2-1">菜品</el-menu-item>
             <el-menu-item index="2-2"><router-link to="/">锅底</router-link></el-menu-item>
             <el-menu-item index="2-3"><router-link to="tangDi">汤底口味</router-link></el-menu-item>
             <el-menu-item index="2-4"><router-link to="canZhuo">餐桌</router-link></el-menu-item>
             <el-menu-item index="2-5"><router-link to="eWai">额外收费项目</router-link></el-menu-item>
             <el-menu-item index="2-6"><router-link to="liPin">礼品</router-link></el-menu-item>
->>>>>>> feature-guodi
           </el-submenu>
           <el-menu-item index="3" disabled>消息中心</el-menu-item>
           <el-menu-item index="4"><a href="https://www.ele.me" target="_blank">订单管理</a></el-menu-item>
@@ -59,7 +50,6 @@ export default {
   text-align: center;
   color: #2c3e50;
   margin-top: 20px;
-<<<<<<< HEAD
 }
 .el-header, .el-footer {
   background-color: #B3C0D1;
@@ -93,7 +83,5 @@ body > .el-container {
 
 .el-container:nth-child(7) .el-aside {
   line-height: 320px;
-=======
->>>>>>> feature-guodi
 }
 </style>
