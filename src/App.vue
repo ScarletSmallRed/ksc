@@ -50,7 +50,7 @@ export default {
   text-align: center;
   color: #2c3e50;
   margin-top: 20px;
-},
+}
 .el-header, .el-footer {
   background-color: #B3C0D1;
   color: #333;
